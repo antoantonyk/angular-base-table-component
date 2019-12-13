@@ -1,0 +1,41 @@
+<hello name="{{ name }}"></hello>
+<p>
+	Start editing to see some magic happen :)
+</p>
+
+<app-custom-table [columns]="columns" [values]="values" [footerValues]="footerValues">
+
+	<!-- Caption Custom Template -->
+	<ng-template #caption>
+		<caption>Custom Table</caption>
+	</ng-template>
+
+	<!-- Header Custom Template -->
+	<ng-template #header let-columns>
+		<tr>
+			<th *ngFor="let column of columns">[{{column.title}}]</th>
+		</tr>
+	</ng-template>
+
+	<!-- Body Custom Template -->
+	<ng-template #body let-item let-columns="columns">
+		<tr *ngIf="item.id === 1 else diff">
+			<td *ngFor="let column of columns">
+				<span *ngIf="column.title === 'Name'" style="background-color: green">{{item[column.key]}}</span>
+				<span *ngIf="column.title !== 'Name'">{{item[column.key]}}</span>
+			</td>
+		</tr>
+		<ng-template #diff>
+			<tr style="background-color: red">
+				<td *ngFor="let column of columns">{{item[column.key]}}</td>
+			</tr>
+		</ng-template>
+	</ng-template>
+
+	<!-- Footer Custom Template -->
+	<ng-template #footer let-item let-columns="columns">
+		<tr>
+			<td [colSpan]="columns.length">{{item.copyrightDetails}}</td>
+		</tr>
+	</ng-template>
+</app-custom-table>

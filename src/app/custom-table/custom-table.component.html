@@ -1,0 +1,58 @@
+<table>
+
+	<!-- Caption -->
+	<ng-container *ngTemplateOutlet="captionTemplate ? captionTemplate: defaultCaption; context:{$implicit: caption}">
+	</ng-container>
+
+	<!-- Header -->
+	<thead>
+		<ng-container *ngTemplateOutlet="headerTemplate ? headerTemplate: defaultHeader; context:{$implicit: columns}">
+		</ng-container>
+	</thead>
+
+	<!-- Body -->
+	<tbody>
+		<!-- Here we will provide custom row Template -->
+		<ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="values">
+			<ng-container
+				*ngTemplateOutlet="bodyTemplate ? bodyTemplate: defaultBody; context:{$implicit: rowData,columns: columns , index:rowIndex }">
+			</ng-container>
+		</ng-template>
+	</tbody>
+
+	<!-- Footer -->
+	<tfoot>
+		<ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="footerValues">
+			<ng-container
+				*ngTemplateOutlet="footerTemplate ? footerTemplate: defaultFooter; context:{$implicit: rowData,columns: columns , index:rowIndex }">
+			</ng-container>
+		</ng-template>
+	</tfoot>
+
+</table>
+
+<!-- Caption Default Template -->
+<ng-template #defaultCaptio let-caption>
+	<caption *ngIf="caption">{{caption}}</caption>
+</ng-template>
+
+<!-- Header Default Template -->
+<ng-template #defaultHeader let-columns>
+	<tr>
+		<th *ngFor="let column of columns">{{column.title}}</th>
+	</tr>
+</ng-template>
+
+<!-- Body Default Template -->
+<ng-template #defaultBody let-item let-columns="columns">
+	<tr>
+		<td *ngFor="let column of columns">{{item[column.key]}}</td>
+	</tr>
+</ng-template>
+
+<!-- Footer Default Template -->
+<ng-template #defaultFooter>
+	<tr *ngFor="let item of footerValues">
+		<td *ngFor="let column of columns">{{item[column.key]}}</td>
+	</tr>
+</ng-template>
